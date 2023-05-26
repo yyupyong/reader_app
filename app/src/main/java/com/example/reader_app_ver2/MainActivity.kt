@@ -14,30 +14,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.reader_app_ver2.ui.theme.Reader_app_ver2Theme
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             Reader_app_ver2Theme {
-
-                val db = FirebaseFirestore.getInstance()
-                val user:MutableMap<String,Any> = HashMap()
-                user["first"] = 1
-                user["second"] = 2
-
-
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
-                    db.collection("users")
-                        .add(user).addOnSuccessListener {
-                            Log.d("FB", "onCreate:$it")
-                        }
-
                     Greeting("Android")
                 }
             }

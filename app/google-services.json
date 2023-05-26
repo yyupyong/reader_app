@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "680268376579",
+    "project_id": "readerapp-v2",
+    "storage_bucket": "readerapp-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680268376579:android:38a40602c8a3bf72ce3c36",
+        "android_client_info": {
+          "package_name": "com.example.reader_app_ver2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWLZOeLA-CDi44bzEwMyOuGluBKvPNXJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

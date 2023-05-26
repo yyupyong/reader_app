@@ -53,9 +53,11 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
 
+    //firestore auth
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
+    //hilt
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
 

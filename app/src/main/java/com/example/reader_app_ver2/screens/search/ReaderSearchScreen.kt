@@ -8,9 +8,9 @@ import com.example.reader_app_ver2.navigation.ReaderScreens
 
 @Composable
 fun ReaderSearchScreen(
-    navController: NavController
+    onNavigateSplash: () -> Unit,
 ) {
-    Button(onClick = {navController.navigate(ReaderScreens.SplashScreen.name)}) {
+    Button(onClick = onNavigateSplash) {
         Text(text = "SearchScreen")
     }
 

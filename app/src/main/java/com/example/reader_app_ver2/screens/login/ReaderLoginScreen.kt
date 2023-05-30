@@ -14,12 +14,6 @@ import com.example.reader_app_ver2.component.Center
 
 @Composable
 fun ReaderLoginScreen(
-    navController: NavController
 ) {
-    Center {
-        Button(onClick = { navController.navigate("home") }) {
-            Text(text = "Click this")
-        }
-    }
 
 }

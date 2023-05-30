@@ -14,6 +14,5 @@ fun ReaderHomeScreen() {
         modifier = Modifier.fillMaxSize(),
     ) {
         Text(text = "Home")
-
     }
 }

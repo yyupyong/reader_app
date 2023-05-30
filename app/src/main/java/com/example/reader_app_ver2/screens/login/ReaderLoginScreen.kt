@@ -8,15 +8,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.reader_app_ver2.component.Center
 
 @Composable
 fun ReaderLoginScreen(
-    navHostController: NavHostController
+    navController: NavController
 ) {
-    Center{
-        Button(onClick = { navHostController.navigate("home") }) {
+    Center {
+        Button(onClick = { navController.navigate("home") }) {
             Text(text = "Click this")
         }
     }

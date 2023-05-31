@@ -33,22 +33,6 @@ import kotlinx.coroutines.delay
 import org.checkerframework.checker.units.qual.Current
 import org.w3c.dom.Text
 
-//@Preview
-//@Composable
-//fun ReaderSplashScreen(navController: NavController = NavController(context = LocalContext.current)) {
-//    Surface(
-//        modifier = Modifier
-//            .size(330.dp)
-//            .padding(15.dp),
-//        shape = CircleShape,
-//        border = BorderStroke(width = 2.dp, color = Color.LightGray),
-//    ) {
-//        Center {
-//            Text("検索中")
-//        }
-//    }
-//}
-
 @Composable
 fun ReaderSplashScreen(navController: NavController) {
     val scale = remember {

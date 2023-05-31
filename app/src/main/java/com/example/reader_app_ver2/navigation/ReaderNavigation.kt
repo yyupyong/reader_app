@@ -16,15 +16,17 @@ import com.example.reader_app_ver2.screens.update.ReaderUpdateScreen
 @Composable
 fun ReaderNavigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = ReaderScreens.SearchScreen.name) {
-        composable(ReaderScreens.SearchScreen.name) {
-            ReaderSearchScreen(onNavigateSplash = {
-                navController.navigate(
-                    ReaderScreens.SplashScreen.name
-                )
-            })
+    NavHost(navController = navController, startDestination = ReaderScreens.SplashScreen.name) {
+        composable(ReaderScreens.SplashScreen.name) {
+            ReaderSplashScreen(
+                navController
+            )
         }
-        composable(ReaderScreens.SplashScreen.name) { ReaderSplashScreen(navController = navController) }
+
+
+        composable(ReaderScreens.SearchScreen.name) {
+            ReaderSearchScreen(navController)
+        }
         composable(ReaderScreens.ReaderStatsScreen.name) { ReaderStatsScreen() }
         composable(ReaderScreens.ReaderHomeScreen.name) { ReaderHomeScreen() }
         composable(ReaderScreens.LoginScreen.name) { ReaderLoginScreen() }
@@ -33,3 +35,4 @@ fun ReaderNavigation() {
     }
 
 }
+

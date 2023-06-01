@@ -12,6 +12,7 @@ import com.example.reader_app_ver2.screens.login.ReaderLoginScreen
 import com.example.reader_app_ver2.screens.search.ReaderSearchScreen
 import com.example.reader_app_ver2.screens.ststs.ReaderStatsScreen
 import com.example.reader_app_ver2.screens.update.ReaderUpdateScreen
+import javax.security.auth.login.LoginException
 
 @Composable
 fun ReaderNavigation() {
@@ -23,8 +24,8 @@ fun ReaderNavigation() {
             ReaderSplashScreen(onSplashFinished = { navController.navigate(ReaderScreens.ReaderHomeScreen.name) })
         }
 
-        composable(ReaderScreens.SearchScreen.name) {
-            ReaderSearchScreen(navController)
+        composable(ReaderScreens.LoginScreen.name) {
+            ReaderLoginScreen()
         }
 
         composable(ReaderScreens.ReaderStatsScreen.name) { ReaderStatsScreen() }

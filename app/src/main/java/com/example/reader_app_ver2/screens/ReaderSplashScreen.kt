@@ -34,13 +34,13 @@ import org.checkerframework.checker.units.qual.Current
 import org.w3c.dom.Text
 
 @Composable
-fun ReaderSplashScreen(navController: NavController) {
+fun ReaderSplashScreen(onSplashFinished: () -> Unit) {
     //ここではanimateの値を定義しただけ
     val scale = remember {
         androidx.compose.animation.core.Animatable(0f)
     }
 
-    // ここで実際の動きを与える
+    // LaunchedEffectで実際の動きを与える
     LaunchedEffect(key1 = true) {
         scale.animateTo(
             targetValue = 0.9f, animationSpec = tween(durationMillis = 900, easing = {
@@ -48,7 +48,7 @@ fun ReaderSplashScreen(navController: NavController) {
             })
         )
         delay(3000L)
-        navController.navigate(ReaderScreens.SearchScreen.name)
+        onSplashFinished()
     }
 
     // 実際にBoxにScaleを渡して引数に先ほど定義したAnimatescale値を入れる

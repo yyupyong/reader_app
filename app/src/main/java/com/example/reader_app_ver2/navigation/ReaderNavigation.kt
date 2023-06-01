@@ -17,16 +17,16 @@ import com.example.reader_app_ver2.screens.update.ReaderUpdateScreen
 fun ReaderNavigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = ReaderScreens.SplashScreen.name) {
-        composable(ReaderScreens.SplashScreen.name) {
-            ReaderSplashScreen(
-                navController
-            )
-        }
 
+        //navControllerをなるべくこのCompose内で持ちたい、なのでcallbackで渡す
+        composable(ReaderScreens.SplashScreen.name) {
+            ReaderSplashScreen(onSplashFinished = { navController.navigate(ReaderScreens.ReaderHomeScreen.name) })
+        }
 
         composable(ReaderScreens.SearchScreen.name) {
             ReaderSearchScreen(navController)
         }
+
         composable(ReaderScreens.ReaderStatsScreen.name) { ReaderStatsScreen() }
         composable(ReaderScreens.ReaderHomeScreen.name) { ReaderHomeScreen() }
         composable(ReaderScreens.LoginScreen.name) { ReaderLoginScreen() }

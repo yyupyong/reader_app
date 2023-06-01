@@ -1,4 +1,4 @@
-package com.example.reader_app_ver2.ui.theme
+package com.example.reader_app_ver2.screens.ststs.theme
 
 import android.app.Activity
 import android.os.Build

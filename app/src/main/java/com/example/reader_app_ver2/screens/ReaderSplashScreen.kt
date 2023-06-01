@@ -35,31 +35,30 @@ import org.w3c.dom.Text
 
 @Composable
 fun ReaderSplashScreen(navController: NavController) {
+    //ここではanimateの値を定義しただけ
     val scale = remember {
         androidx.compose.animation.core.Animatable(0f)
     }
 
-    // AnimationEffect
+    // ここで実際の動きを与える
     LaunchedEffect(key1 = true) {
         scale.animateTo(
-            targetValue = 0.7f,
-            animationSpec = tween(
-                durationMillis = 300,
-                easing = {
-                    OvershootInterpolator(4f).getInterpolation(it)
-                })
+            targetValue = 0.9f, animationSpec = tween(durationMillis = 900, easing = {
+                OvershootInterpolator(4f).getInterpolation(it)
+            })
         )
         delay(3000L)
         navController.navigate(ReaderScreens.SearchScreen.name)
     }
 
-    // Image
+    // 実際にBoxにScaleを渡して引数に先ほど定義したAnimatescale値を入れる
     Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
-        Text(text = "Splash")
+        Text(text = "SplashScreen", modifier = Modifier.scale(scale.value))
     }
+
+
 }
 
 

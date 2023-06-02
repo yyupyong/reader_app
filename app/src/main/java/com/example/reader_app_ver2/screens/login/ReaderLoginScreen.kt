@@ -26,6 +26,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -37,7 +38,7 @@ fun ReaderLoginScreen(
     Center(
         modifier = Modifier.fillMaxSize(),
     ) {
-        Text(text = "LoginScreen")
+        UserForm()
     }
 }
 
@@ -73,13 +74,14 @@ fun UserForm() {
     //子供としてColumnで各要素を持つ
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
 
+        EmailInput(emailState = email)
 
     }
 
 }
 
 @Composable
-fun emailInput(
+fun EmailInput(
     modifier: Modifier = Modifier,
     emailState: MutableState<String>,
     labelId: String = "Email",
@@ -87,7 +89,14 @@ fun emailInput(
     imeAction: ImeAction = ImeAction.Next,
     onKeyboardAction: KeyboardActions = KeyboardActions.Default
 ) {
-    InputField()
+    InputField(
+        modifier = modifier,
+        valueState = emailState,
+        labelId = labelId,
+        enabled = enabled,
+        imeAction = imeAction,
+        onAction = onKeyboardAction
+    )
 }
 
 
@@ -108,9 +117,6 @@ fun InputField(
         label = { Text(text = labelId) },
         enabled = enabled,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
-
-
-
+        keyboardActions = onAction,
     )
-
 }

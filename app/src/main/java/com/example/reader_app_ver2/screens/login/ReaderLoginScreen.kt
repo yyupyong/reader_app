@@ -1,7 +1,7 @@
 package com.example.reader_app_ver2.screens.login
 
+import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -12,7 +12,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +33,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -47,13 +45,19 @@ fun ReaderLoginScreen(
     Center(
         modifier = Modifier.fillMaxSize(),
     ) {
-        UserForm()
+        UserForm(loading = false, isCreateAccount = false) { email, pwd ->
+            Log.d("ReaderLoginScreen", "ReaderLoginScreen: $email,$pwd")
+        }
     }
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun UserForm() {
+fun UserForm(
+    loading: Boolean = false,
+    isCreateAccount: Boolean = false,
+    onDone: (String, String) -> Unit = { email, pwd -> }
+) {
     val email = rememberSaveable {
         mutableStateOf("")
     }
@@ -84,15 +88,20 @@ fun UserForm() {
     //子供としてColumnで各要素を持つ各要素の子を真ん中にするよう指定
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
 
-        EmailInput(emailState = email)
+        EmailInput(
+            emailState = email,
+            enabled = !loading,
+            onKeyboardAction = KeyboardActions { passwordFocusRequest.requestFocus() })
         PasswordInput(
             modifier = Modifier.focusRequester(focusRequester = passwordFocusRequest),
             passwordState = password,
             passwordVisibility = passwordVisibility,
-            onAction = KeyboardActions{
-                if (!valid)return@KeyboardActions
-                onDone(email.value.trim(),password.value.trim())
-            }
+            onAction = KeyboardActions {
+                if (!valid) return@KeyboardActions
+                onDone(email.value.trim(), password.value.trim())
+            },
+            //loading中だったらenableはfalse(無効)
+            enabled = !loading
         )
 
     }
@@ -124,21 +133,22 @@ fun PasswordInput(
     modifier: Modifier,
     passwordState: MutableState<String>,
     labelId: String = "password",
-    enabled: Boolean = true,
+    enabled: Boolean,
     passwordVisibility: MutableState<Boolean>,
     imeAction: ImeAction = ImeAction.Done,
     onAction: KeyboardActions = KeyboardActions.Default,
 ) {
     val visualTransformation =
-        if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
+        if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation()
     OutlinedTextField(
         value = passwordState.value, onValueChange = {
             passwordState.value = it
         },
+        enabled = enabled,
         label = { Text(text = labelId) },
         singleLine = true,
-        textStyle = TextStyle(fontSize = 29.sp, color = MaterialTheme.colorScheme.background),
-        modifier = Modifier
+        textStyle = TextStyle(fontSize = 18.sp, color = MaterialTheme.colorScheme.background),
+        modifier = modifier
             .padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
             .fillMaxSize(),
         keyboardOptions = KeyboardOptions(
@@ -146,15 +156,15 @@ fun PasswordInput(
             imeAction = imeAction,
         ),
         visualTransformation = visualTransformation,
-        trailingIcon = { PasswordVisibility(passwordState = passwordVisibility }
+        trailingIcon = { PasswordVisibility(passwordState = passwordVisibility) },
+        keyboardActions = onAction
     )
-
 }
 
 @Composable
 fun PasswordVisibility(passwordState: MutableState<Boolean>) {
     val visible = passwordState.value
-    IconButton(onClick = { passwordState.value = !passwordState.value }) {
+    IconButton(onClick = { passwordState.value = !visible }) {
         Icons.Default.Close
     }
 }
@@ -173,7 +183,11 @@ fun InputField(
     onAction: KeyboardActions = KeyboardActions.Default,
 ) {
     OutlinedTextField(
+        modifier = modifier
+            .padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
+            .fillMaxSize(),
         value = valueState.value,
+        textStyle = TextStyle(fontSize = 18.sp),
         onValueChange = { valueState.value = it },
         label = { Text(text = labelId) },
         enabled = enabled,

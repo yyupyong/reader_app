@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -84,6 +85,15 @@ fun UserForm() {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
 
         EmailInput(emailState = email)
+        PasswordInput(
+            modifier = Modifier.focusRequester(focusRequester = passwordFocusRequest),
+            passwordState = password,
+            passwordVisibility = passwordVisibility,
+            onAction = KeyboardActions{
+                if (!valid)return@KeyboardActions
+                onDone(email.value.trim(),password.value.trim())
+            }
+        )
 
     }
 
@@ -113,8 +123,8 @@ fun EmailInput(
 fun PasswordInput(
     modifier: Modifier,
     passwordState: MutableState<String>,
-    labelId: String,
-    enabled: Boolean,
+    labelId: String = "password",
+    enabled: Boolean = true,
     passwordVisibility: MutableState<Boolean>,
     imeAction: ImeAction = ImeAction.Done,
     onAction: KeyboardActions = KeyboardActions.Default,

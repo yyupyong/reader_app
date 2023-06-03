@@ -71,7 +71,8 @@ fun UserForm() {
         )
 
     //UserFormという大きなログイン専用のComposableがあって、ここで状態をホイスティングする
-    //子供としてColumnで各要素を持つ
+
+    //子供としてColumnで各要素を持つ各要素の子を真ん中にするよう指定
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
 
         EmailInput(emailState = email)
@@ -99,9 +100,23 @@ fun EmailInput(
     )
 }
 
+@Composable
+fun PasswordInput(
+    modifier: Modifier,
+    passwordState: MutableState<String>,
+    labelId: String,
+    enabled: Boolean,
+    passwordVisibility: Boolean,
+    imeAction: ImeAction = ImeAction.Done,
+    onAction: KeyboardActions
+) {
+
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+//ここでInputFieldをComposableとして切り出しているのはもう一度Passwordで使うから？そうではない場合はEmailInputのことしてそのままText fieldでOK？
 fun InputField(
     modifier: Modifier = Modifier,
     valueState: MutableState<String>,

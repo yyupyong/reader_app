@@ -1,8 +1,13 @@
 package com.example.reader_app_ver2.screens.login
 
 import android.util.Log
+import android.util.MonthDisplayHelper
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,8 +37,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -47,11 +54,37 @@ import com.example.reader_app_ver2.component.Center
 @Composable
 fun ReaderLoginScreen(
 ) {
+    val showLoginForm = rememberSaveable {
+        mutableStateOf(false)
+    }
     Center(
         modifier = Modifier.fillMaxSize(),
     ) {
-        UserForm(loading = false, isCreateAccount = false) { email, pwd ->
-            Log.d("ReaderLoginScreen", "ReaderLoginScreen: $email,$pwd")
+        if (showLoginForm.value) UserForm(loading = false, isCreateAccount = false) { email, pwd ->
+            //FB login
+        } else {
+            UserForm(loading = false, isCreateAccount = true) { email, pwd ->
+                //FB create account
+            }
+        }
+        Spacer(modifier = Modifier.height(15.dp))
+        Row(
+            modifier = Modifier.padding(15.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val text = if (showLoginForm.value) "Sign in" else "Login"
+            Text(text = "New User?")
+            Text(text = text,
+                modifier =
+                Modifier
+                    .clickable {
+                        showLoginForm.value = !showLoginForm.value
+                    }
+                    .padding(start = 5.dp),
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
@@ -111,7 +144,7 @@ fun UserForm(
             textId = if (isCreateAccount) "Create Account" else "Login",
             loading = loading,
             validInputs = valid
-        ){
+        ) {
             onDone(email.value.trim(), password.value.trim())
             keyboardController?.hide()
         }
@@ -206,10 +239,12 @@ fun InputField(
 }
 
 @Composable
-fun SubmitButton(textId: String,
-                 loading: Boolean,
-                 validInputs: Boolean,
-                 onClick: () -> Unit) {
+fun SubmitButton(
+    textId: String,
+    loading: Boolean,
+    validInputs: Boolean,
+    onClick: () -> Unit
+) {
     Button(
         onClick = onClick,
         modifier = Modifier
@@ -221,5 +256,4 @@ fun SubmitButton(textId: String,
         if (loading) CircularProgressIndicator(modifier = Modifier.size(25.dp))
         else Text(text = textId, modifier = Modifier.padding(5.dp))
     }
-
 }

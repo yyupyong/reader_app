@@ -53,6 +53,7 @@ import com.example.reader_app_ver2.component.Center
 
 @Composable
 fun ReaderLoginScreen(
+    navController: NavController
 ) {
     val showLoginForm = rememberSaveable {
         mutableStateOf(false)
@@ -125,6 +126,9 @@ fun UserForm(
 
     //子供としてColumnで各要素を持つ各要素の子を真ん中にするよう指定
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        
+        if (isCreateAccount) Text(text = "六文字以内でpasswordを設定してください") else Text(text = "")
+        
         EmailInput(
             emailState = email,
             enabled = !loading,

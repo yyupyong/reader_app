@@ -4,14 +4,19 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -87,7 +92,6 @@ fun UserForm(
 
     //子供としてColumnで各要素を持つ各要素の子を真ん中にするよう指定
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-
         EmailInput(
             emailState = email,
             enabled = !loading,
@@ -103,9 +107,15 @@ fun UserForm(
             //loading中だったらenableはfalse(無効)
             enabled = !loading
         )
-
+        SubmitButton(
+            textId = if (isCreateAccount) "Create Account" else "Login",
+            loading = loading,
+            validInputs = valid
+        ){
+            onDone(email.value.trim(), password.value.trim())
+            keyboardController?.hide()
+        }
     }
-
 }
 
 @Composable
@@ -169,7 +179,6 @@ fun PasswordVisibility(passwordState: MutableState<Boolean>) {
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 //ここでInputFieldをComposableとして切り出しているのはもう一度Passwordで使うから？そうではない場合はEmailInputのことしてそのままText fieldでOK？
@@ -194,4 +203,23 @@ fun InputField(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = onAction,
     )
+}
+
+@Composable
+fun SubmitButton(textId: String,
+                 loading: Boolean,
+                 validInputs: Boolean,
+                 onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .padding(3.dp)
+            .fillMaxWidth(),
+        enabled = !loading && validInputs,
+        shape = CircleShape
+    ) {
+        if (loading) CircularProgressIndicator(modifier = Modifier.size(25.dp))
+        else Text(text = textId, modifier = Modifier.padding(5.dp))
+    }
+
 }

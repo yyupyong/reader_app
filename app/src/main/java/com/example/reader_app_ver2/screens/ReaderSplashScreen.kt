@@ -47,7 +47,7 @@ fun ReaderSplashScreen(onSplashFinished: () -> Unit) {
                 OvershootInterpolator(4f).getInterpolation(it)
             })
         )
-        delay(3000L)
+        delay(100L)
         onSplashFinished()
     }
 

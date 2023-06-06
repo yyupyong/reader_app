@@ -18,6 +18,7 @@ class LoginScreenViewModel : ViewModel() {
     val loading: LiveData<Boolean> = _loading
 
 
+
     fun signInWithEmailAndPassword(email: String, password: String) {
         try {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {

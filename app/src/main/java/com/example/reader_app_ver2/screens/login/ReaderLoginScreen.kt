@@ -53,7 +53,8 @@ import com.example.reader_app_ver2.component.Center
 
 @Composable
 fun ReaderLoginScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
     val showLoginForm = rememberSaveable {
         mutableStateOf(false)
@@ -63,6 +64,7 @@ fun ReaderLoginScreen(
     ) {
         if (showLoginForm.value) UserForm(loading = false, isCreateAccount = false) { email, pwd ->
             //FB login
+            viewModel.signInWithEmailAndPassword(email = email, password = pwd)
         } else {
             UserForm(loading = false, isCreateAccount = true) { email, pwd ->
                 //FB create account
@@ -126,9 +128,9 @@ fun UserForm(
 
     //子供としてColumnで各要素を持つ各要素の子を真ん中にするよう指定
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        
+
         if (isCreateAccount) Text(text = "六文字以内でpasswordを設定してください") else Text(text = "")
-        
+
         EmailInput(
             emailState = email,
             enabled = !loading,
@@ -138,6 +140,7 @@ fun UserForm(
             passwordState = password,
             passwordVisibility = passwordVisibility,
             onAction = KeyboardActions {
+                //password入力後　onDone発火
                 if (!valid) return@KeyboardActions
                 onDone(email.value.trim(), password.value.trim())
             },
@@ -149,6 +152,7 @@ fun UserForm(
             loading = loading,
             validInputs = valid
         ) {
+            //ここでも後置ラムダでsubmitButtonのonclickを発火
             onDone(email.value.trim(), password.value.trim())
             keyboardController?.hide()
         }

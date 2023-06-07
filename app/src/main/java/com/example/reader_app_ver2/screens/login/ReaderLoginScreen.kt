@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.reader_app_ver2.component.Center
+import com.example.reader_app_ver2.navigation.ReaderScreens
 
 @Composable
 fun ReaderLoginScreen(
@@ -63,8 +64,9 @@ fun ReaderLoginScreen(
         modifier = Modifier.fillMaxSize(),
     ) {
         if (showLoginForm.value) UserForm(loading = false, isCreateAccount = false) { email, pwd ->
-            //FB login
-            viewModel.signInWithEmailAndPassword(email = email, password = pwd)
+            viewModel.signInWithEmailAndPassword(email = email, password = pwd) {
+                navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+            }
         } else {
             UserForm(loading = false, isCreateAccount = true) { email, pwd ->
                 //FB create account

@@ -19,11 +19,12 @@ class LoginScreenViewModel : ViewModel() {
 
 
 
-    fun signInWithEmailAndPassword(email: String, password: String) {
+    fun signInWithEmailAndPassword(email: String, password: String, home:()->Unit) {
         try {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
                     //成功時の処理を記述
+                    home()
                 }
             }
         } catch (e: Exception) {

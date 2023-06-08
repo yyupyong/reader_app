@@ -24,6 +24,7 @@ fun ReaderNavigation() {
             ReaderSplashScreen(onSplashFinished = { navController.navigate(ReaderScreens.LoginScreen.name) })
         }
 
+        //ここでは普通に渡している
         composable(ReaderScreens.LoginScreen.name) {
             ReaderLoginScreen(navController)
         }

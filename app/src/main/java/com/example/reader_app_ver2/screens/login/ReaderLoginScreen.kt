@@ -29,6 +29,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -50,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.reader_app_ver2.component.Center
+import com.example.reader_app_ver2.component.LoadingIndicator
 import com.example.reader_app_ver2.navigation.ReaderScreens
 
 @Composable
@@ -60,6 +62,8 @@ fun ReaderLoginScreen(
     val showLoginForm = rememberSaveable {
         mutableStateOf(false)
     }
+    val loading = viewModel.loading.collectAsState()
+
     Center(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -74,6 +78,7 @@ fun ReaderLoginScreen(
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(15.dp))
         Row(
             modifier = Modifier.padding(15.dp),
@@ -92,6 +97,9 @@ fun ReaderLoginScreen(
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+        }
+        if (loading.value) {
+            LoadingIndicator()
         }
     }
 }

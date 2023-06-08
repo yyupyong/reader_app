@@ -69,7 +69,9 @@ fun ReaderLoginScreen(
             }
         } else {
             UserForm(loading = false, isCreateAccount = true) { email, pwd ->
-                //FB create account
+                viewModel.createUserWithEmailAndPassword(email = email, password = pwd) {
+                    navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+                }
             }
         }
         Spacer(modifier = Modifier.height(15.dp))
@@ -176,7 +178,7 @@ fun EmailInput(
         labelId = labelId,
         enabled = enabled,
         imeAction = imeAction,
-        onAction = onKeyboardAction
+        onAction = onKeyboardAction,
     )
 }
 
@@ -245,6 +247,7 @@ fun InputField(
         enabled = enabled,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = onAction,
+        maxLines = 1
     )
 }
 

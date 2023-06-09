@@ -1,17 +1,15 @@
 package com.example.reader_app_ver2.screens.login
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.util.Stack
 
 class LoginScreenViewModel : ViewModel() {
 
@@ -25,9 +23,10 @@ class LoginScreenViewModel : ViewModel() {
     fun signInWithEmailAndPassword(email: String, password: String, home: () -> Unit) =
         viewModelScope.launch {
             try {
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        //成功時の処理を記述
+                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val displayName = task.result.user?.email?.split("@")?.get(0)
+                        creteUser(displayName)
                         home()
                     }
                 }
@@ -35,6 +34,18 @@ class LoginScreenViewModel : ViewModel() {
                 //Log.d(TAG, "signInWithEmailAndPassword: ")
             }
         }
+
+    private fun creteUser(displayName: String?) {
+        val user_id = auth.currentUser?.uid
+        val user = mutableMapOf<String, Any>()
+        //FireStoreに保存する際にUIDとメールアドレスの＠の前を切り抜いたものを保存
+        //要するにauthで登録したデータからFireStoreに初期値としてデータを保存
+        user["user_id"] = user_id.toString()
+        user["display_name"] = displayName.toString()
+
+        FirebaseFirestore.getInstance().collection("users")
+            .add(user)
+    }
 
 
     fun createUserWithEmailAndPassword(

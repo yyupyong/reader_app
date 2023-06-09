@@ -50,11 +50,12 @@ fun ReaderSplashScreen(navController: NavController) {
         )
         delay(100L)
         //この部分はシングルトンでの実装->FirebaseAuth.getInstance()
-        if (FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) {
-            navController.navigate(ReaderScreens.LoginScreen.name)
-        } else {
-            navController.navigate(ReaderScreens.ReaderHomeScreen.name)
-        }
+//        if (FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) {
+//            navController.navigate(ReaderScreens.LoginScreen.name)
+//        } else {
+//            navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+//        }
+        navController.navigate(ReaderScreens.LoginScreen.name)
     }
 
     // 実際にBoxにScaleを渡して引数に先ほど定義したAnimatescale値を入れる

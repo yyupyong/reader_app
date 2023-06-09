@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class LoginScreenViewModel : ViewModel() {
@@ -17,7 +18,7 @@ class LoginScreenViewModel : ViewModel() {
     private val auth: FirebaseAuth = Firebase.auth
 
     private val _loading = MutableStateFlow(false)
-    val loading: StateFlow<Boolean> = _loading
+    val loading: StateFlow<Boolean> = _loading.asStateFlow()
 
 
     fun signInWithEmailAndPassword(email: String, password: String, home: () -> Unit) =

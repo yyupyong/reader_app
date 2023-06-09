@@ -60,6 +60,7 @@ fun ReaderLoginScreen(
     val showLoginForm = rememberSaveable {
         mutableStateOf(false)
     }
+
     val loading = viewModel.loading.collectAsState()
 
     Center(
@@ -269,6 +270,7 @@ fun SubmitButton(
         modifier = Modifier
             .padding(3.dp)
             .fillMaxWidth(),
+
         enabled = !loading && validInputs,
         shape = CircleShape
     ) {

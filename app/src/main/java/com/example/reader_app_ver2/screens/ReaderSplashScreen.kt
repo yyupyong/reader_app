@@ -29,12 +29,13 @@ import androidx.navigation.NavHostController
 import com.example.reader_app_ver2.R
 import com.example.reader_app_ver2.component.Center
 import com.example.reader_app_ver2.navigation.ReaderScreens
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 import org.checkerframework.checker.units.qual.Current
 import org.w3c.dom.Text
 
 @Composable
-fun ReaderSplashScreen(onSplashFinished: () -> Unit) {
+fun ReaderSplashScreen(navController: NavController) {
     //ここではanimateの値を定義しただけ
     val scale = remember {
         androidx.compose.animation.core.Animatable(0f)
@@ -48,7 +49,12 @@ fun ReaderSplashScreen(onSplashFinished: () -> Unit) {
             })
         )
         delay(100L)
-        onSplashFinished()
+        //この部分はシングルトンでの実装->FirebaseAuth.getInstance()
+        if (FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()) {
+            navController.navigate(ReaderScreens.LoginScreen.name)
+        } else {
+            navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+        }
     }
 
     // 実際にBoxにScaleを渡して引数に先ほど定義したAnimatescale値を入れる

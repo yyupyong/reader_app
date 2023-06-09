@@ -21,7 +21,7 @@ fun ReaderNavigation() {
 
         //navControllerをなるべくこのCompose内で持ちたい、なのでcallbackで渡す
         composable(ReaderScreens.SplashScreen.name) {
-            ReaderSplashScreen(onSplashFinished = { navController.navigate(ReaderScreens.LoginScreen.name) })
+            ReaderSplashScreen(navController)
         }
 
         //ここでは普通に渡している

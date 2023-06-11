@@ -26,8 +26,6 @@ class LoginScreenViewModel : ViewModel() {
             try {
                 auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val displayName = task.result.user?.email?.split("@")?.get(0)
-                        creteUser(displayName)
                         home()
                     }
                 }
@@ -37,12 +35,17 @@ class LoginScreenViewModel : ViewModel() {
         }
 
     private fun creteUser(displayName: String?) {
+        //ここでauthインスタンスからuser_idを取得
         val user_id = auth.currentUser?.uid
-        val user = mutableMapOf<String, Any>()
-        //FireStoreに保存する際にUIDとメールアドレスの＠の前を切り抜いたものを保存
-        //要するにauthで登録したデータからFireStoreに初期値としてデータを保存
-        user["user_id"] = user_id.toString()
-        user["display_name"] = displayName.toString()
+        //user dataclassを作成しtoMapメソッドを作成しそれをfirestoreに保存する
+        //ここでauthに登録されているデータを使用しfireStoreに今後アプリで使用するデータを保存するg
+        val user = User(
+            userId = user_id.toString(),
+            displayName = displayName.toString(),
+            profession = "Flutter developer",
+            quote = "YOLO",
+            avatarUrl = "", id = null
+        ).toMap()
 
         FirebaseFirestore.getInstance().collection("users")
             .add(user)
@@ -60,6 +63,8 @@ class LoginScreenViewModel : ViewModel() {
                 //処理が完了したかどうかtask.isSuccessは成功かどうか
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        val displayName = task.result.user?.email?.split("@")?.get(0)
+                        creteUser(displayName)
                         home()
                     } else {
                         Log.d("FB", "currentUserEmailAndPassword${task.result}")

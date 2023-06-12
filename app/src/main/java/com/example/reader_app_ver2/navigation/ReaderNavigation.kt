@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.reader_app_ver2.screens.ReaderSplashScreen
 import com.example.reader_app_ver2.screens.detail.ReaderDetailScreen
-import com.example.reader_app_ver2.screens.home.ReaderHomeScreen
+import com.example.reader_app_ver2.screens.home.Home
 import com.example.reader_app_ver2.screens.login.ReaderLoginScreen
 import com.example.reader_app_ver2.screens.search.ReaderSearchScreen
 import com.example.reader_app_ver2.screens.ststs.ReaderStatsScreen
@@ -30,7 +30,7 @@ fun ReaderNavigation() {
         }
 
         composable(ReaderScreens.ReaderStatsScreen.name) { ReaderStatsScreen() }
-        composable(ReaderScreens.ReaderHomeScreen.name) { ReaderHomeScreen() }
+        composable(ReaderScreens.ReaderHomeScreen.name) { Home() }
         composable(ReaderScreens.UpdateScree.name) { ReaderUpdateScreen() }
         composable(ReaderScreens.DetailScreen.name) { ReaderDetailScreen() }
     }

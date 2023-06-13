@@ -13,9 +13,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -39,13 +41,17 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.reader_app_ver2.component.Center
+import com.example.reader_app_ver2.navigation.ReaderScreens
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(navController: NavController) {
     Scaffold(topBar = {
-                      ReaderAppBar(title = "ReaderApp", navController = navController )
+        ReaderAppBar(title = "ReaderApp", navController = navController)
     }, floatingActionButton = { FABContent {} }) {
         Surface(modifier = Modifier.fillMaxSize()) {
 
@@ -79,7 +85,15 @@ fun ReaderAppBar(
                 )
             }
         }
-    }, actions = {}, colors = TopAppBarDefaults.smallTopAppBarColors())
+    }, actions = {
+        IconButton(onClick = {
+            FirebaseAuth.getInstance().signOut().run {
+                navController.navigate(ReaderScreens.LoginScreen.name)
+            }
+        }) {
+            Icon(imageVector = Icons.Default.Home, contentDescription = "log out")
+        }
+    }, colors = TopAppBarDefaults.smallTopAppBarColors())
 }
 
 @Composable

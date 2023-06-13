@@ -41,6 +41,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.reader_app_ver2.component.Center
+import com.example.reader_app_ver2.model.Book
 import com.example.reader_app_ver2.navigation.ReaderScreens
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -105,6 +106,12 @@ fun FABContent(onTap: (String) -> Unit) {
     ) {
         Icon(imageVector = Icons.Default.Add, contentDescription = "")
     }
+}
+
+
+@Composable
+fun ReadingNoaArea(books:List<Book>,navController: NavController){
+
 }
 
 

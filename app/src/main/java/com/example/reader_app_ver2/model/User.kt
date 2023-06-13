@@ -1,4 +1,4 @@
-package com.example.reader_app_ver2.screens.login
+package com.example.reader_app_ver2.model
 
 class User(
     val id: String?,

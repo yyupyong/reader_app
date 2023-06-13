@@ -30,7 +30,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -40,9 +43,10 @@ import com.example.reader_app_ver2.component.Center
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Home() {
-    //引数としてComposableを受け取ることで自分でカスタマイズが可能になる
-    Scaffold(topBar = {}, floatingActionButton = { FABContent {} }) {
+fun Home(navController: NavController) {
+    Scaffold(topBar = {
+                      ReaderAppBar(title = "ReaderApp", navController = navController )
+    }, floatingActionButton = { FABContent {} }) {
         Surface(modifier = Modifier.fillMaxSize()) {
 
         }
@@ -62,9 +66,16 @@ fun ReaderAppBar(
                 Icon(
                     imageVector = Icons.Default.Favorite,
                     contentDescription = "Logo Icon",
-                    modifier = Modifier.clip(
-                        RoundedCornerShape(12.dp))
+                    modifier = Modifier
+                        .clip(
+                            RoundedCornerShape(12.dp)
+                        )
                         .scale(0.6f)
+                )
+                Text(
+                    text = title,
+                    color = Color.Red.copy(alpha = 0.7f),
+                    style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 )
             }
         }

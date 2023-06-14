@@ -57,7 +57,8 @@ fun Home(navController: NavController) {
         ReaderAppBar(title = "ReaderApp", navController = navController)
     }, floatingActionButton = { FABContent {} }) {
         Surface(modifier = Modifier.fillMaxSize()) {
-
+            //HomeというScreenの中にScaffoldがあってそのメインとなるのがHomeContentここにいろんな要素を入れる
+            HomeContent(navController = navController)
         }
     }
 }
@@ -107,6 +108,15 @@ fun FABContent(onTap: (String) -> Unit) {
         containerColor = MaterialTheme.colorScheme.background,
     ) {
         Icon(imageVector = Icons.Default.Add, contentDescription = "")
+    }
+}
+
+@Composable
+fun HomeContent(navController: NavController) {
+    Column(modifier = Modifier.padding(2.dp), verticalArrangement = Arrangement.SpaceEvenly) {
+        Row(modifier = Modifier.align(alignment = Alignment.Start)) {
+            TitleSection(label = "your Reading Activity now")
+        }
     }
 }
 

@@ -110,8 +110,10 @@ fun FABContent(onTap: (String) -> Unit) {
 
 
 @Composable
-fun ReadingNoaArea(books:List<Book>,navController: NavController){
-
+fun ReadingNoaArea(books: List<Book>, navController: NavController) {
+    //NextTask
 }
+
+@
 
 

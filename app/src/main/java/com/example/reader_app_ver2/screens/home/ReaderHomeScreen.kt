@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -40,6 +41,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -122,13 +124,19 @@ fun FABContent(onTap: (String) -> Unit) {
     }
 }
 
+//ここのHomeContentはScaffoldのメインの要素、このHomeContentの中にまたTitleSectionやら何やらある
 @Composable
 fun HomeContent(navController: NavController) {
+
+    val currentUser = if (!FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty())
+        FirebaseAuth.getInstance().currentUser?.email?.split("@")?.get(0)
+    else "N/A"
+
+
     Column(modifier = Modifier.padding(2.dp), verticalArrangement = Arrangement.SpaceEvenly) {
         Row(modifier = Modifier.align(alignment = Alignment.Start)) {
-            TitleSection(label = "your Reading Activity now")
+            TitleSection(label = "Your reading \n " + " activity right now...")
             Spacer(modifier = Modifier.fillMaxWidth(fraction = 0.7f))
-
             Column {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
@@ -139,13 +147,14 @@ fun HomeContent(navController: NavController) {
                     tint = MaterialTheme.colorScheme.secondary
                 )
                 Text(
-                    text = "Name",
+                    text = currentUser!!,
                     modifier = Modifier.padding(2.dp),
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.Red,
                     fontSize = 15.sp,
                     maxLines = 1, overflow = TextOverflow.Clip
                 )
+                Divider()
             }
 
         }
@@ -162,7 +171,12 @@ fun ReadingNowArea(books: List<Book>, navController: NavController) {
 fun TitleSection(modifier: Modifier = Modifier, label: String) {
     Surface(modifier = modifier.padding(start = 5.dp, top = 1.dp)) {
         Column {
-            Text(text = label, fontSize = 19.sp, textAlign = TextAlign.Center)
+            Text(
+                text = label,
+                fontSize = 19.sp,
+                textAlign = TextAlign.Left,
+                fontStyle = FontStyle.Normal
+            )
 
         }
     }

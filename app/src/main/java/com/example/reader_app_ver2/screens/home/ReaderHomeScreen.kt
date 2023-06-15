@@ -5,13 +5,19 @@ import android.icu.text.CaseMap.Title
 import android.net.wifi.hotspot2.pps.HomeSp
 import android.provider.CalendarContract
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -36,6 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -85,7 +92,11 @@ fun ReaderAppBar(
                 Text(
                     text = title,
                     color = Color.Red.copy(alpha = 0.7f),
-                    style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
+
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                    )
                 )
             }
         }
@@ -116,6 +127,27 @@ fun HomeContent(navController: NavController) {
     Column(modifier = Modifier.padding(2.dp), verticalArrangement = Arrangement.SpaceEvenly) {
         Row(modifier = Modifier.align(alignment = Alignment.Start)) {
             TitleSection(label = "your Reading Activity now")
+            Spacer(modifier = Modifier.fillMaxWidth(fraction = 0.7f))
+
+            Column {
+                Icon(
+                    imageVector = Icons.Filled.AccountCircle,
+                    contentDescription = "",
+                    modifier = Modifier
+                        .clickable { }
+                        .size(45.dp),
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+                Text(
+                    text = "Name",
+                    modifier = Modifier.padding(2.dp),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.Red,
+                    fontSize = 15.sp,
+                    maxLines = 1, overflow = TextOverflow.Clip
+                )
+            }
+
         }
     }
 }

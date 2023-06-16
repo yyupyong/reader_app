@@ -58,6 +58,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberImagePainter
 import com.example.reader_app_ver2.component.Center
 import com.example.reader_app_ver2.model.Book
 import com.example.reader_app_ver2.navigation.ReaderScreens
@@ -181,6 +182,7 @@ fun ListCard(
     val displayMetrics = resources.displayMetrics
 
     val screenWidth = displayMetrics.widthPixels / displayMetrics.density
+    val spacing = 10.dp
 
     Card(
         shape = RoundedCornerShape(29.dp),
@@ -194,8 +196,18 @@ fun ListCard(
             .clickable { onPressDetail.invoke(book.title.toString()) }
     ) {
 
-        Column(modifier = Modifier.width(screenWidth.dp)) {
+        Column(
+            modifier = Modifier.width(screenWidth.dp - (spacing * 2)),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Row(horizontalArrangement = Arrangement.Center) {
+                //このRowが本の画像
+                Image(painter = , contentDescription = "")
+            }
             
+            Column() {
+
+            }
         }
 
     }

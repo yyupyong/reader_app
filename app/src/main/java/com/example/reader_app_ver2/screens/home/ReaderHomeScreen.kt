@@ -43,6 +43,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -172,6 +174,13 @@ fun ListCard(
     book: Book = Book("123", "走れメロス", "None", ""),
     onPressDetail: (String) -> Unit = {}
 ) {
+    val context = LocalContext.current
+    val resources = context.resources
+
+    //ここで現在のディスプレイのサイズなどを取得することができる
+    val displayMetrics = resources.displayMetrics
+
+    val screenWidth = displayMetrics.widthPixels / displayMetrics.density
 
     Card(
         shape = RoundedCornerShape(29.dp),
@@ -181,9 +190,13 @@ fun ListCard(
             .padding(16.dp)
             .height(242.dp)
             .width(202.dp)
-                //invoke operatorは明示的な呼び出し、必須ではない
+            //invoke operatorは明示的な呼び出し、必須ではない
             .clickable { onPressDetail.invoke(book.title.toString()) }
     ) {
+
+        Column(modifier = Modifier.width(screenWidth.dp)) {
+            
+        }
 
     }
 }

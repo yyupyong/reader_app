@@ -142,7 +142,7 @@ fun HomeContent(navController: NavController) {
                     imageVector = Icons.Filled.AccountCircle,
                     contentDescription = "",
                     modifier = Modifier
-                        .clickable { }
+                        .clickable { navController.navigate(ReaderScreens.ReaderStatsScreen.name) }
                         .size(45.dp),
                     tint = MaterialTheme.colorScheme.secondary
                 )

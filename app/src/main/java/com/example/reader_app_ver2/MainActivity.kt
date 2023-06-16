@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.reader_app_ver2.component.Center
 import com.example.reader_app_ver2.navigation.ReaderNavigation
-import com.example.reader_app_ver2.screens.ststs.theme.Reader_app_ver2Theme
+import com.example.reader_app_ver2.ui.theme.Reader_app_ver2Theme
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint

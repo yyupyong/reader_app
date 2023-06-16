@@ -1,4 +1,4 @@
-package com.example.reader_app_ver2.screens.ststs.theme
+package com.example.reader_app_ver2.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

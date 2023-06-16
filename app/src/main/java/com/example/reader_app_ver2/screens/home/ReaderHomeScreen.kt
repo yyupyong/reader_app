@@ -58,6 +58,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.reader_app_ver2.component.Center
 import com.example.reader_app_ver2.model.Book
@@ -177,10 +178,8 @@ fun ListCard(
 ) {
     val context = LocalContext.current
     val resources = context.resources
-
     //ここで現在のディスプレイのサイズなどを取得することができる
     val displayMetrics = resources.displayMetrics
-
     val screenWidth = displayMetrics.widthPixels / displayMetrics.density
     val spacing = 10.dp
 
@@ -197,14 +196,23 @@ fun ListCard(
     ) {
 
         Column(
+            //ここのScreenWidthは親のComposableのwidthを取得する？？
             modifier = Modifier.width(screenWidth.dp - (spacing * 2)),
             horizontalAlignment = Alignment.Start
         ) {
             Row(horizontalArrangement = Arrangement.Center) {
                 //このRowが本の画像
-                Image(painter = , contentDescription = "")
+                Image(
+                    painter = rememberAsyncImagePainter(model = ""),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(140.dp)
+                        .width(100.dp)
+                        .padding(4.dp)
+                )
+                Spacer(modifier = Modifier.width(50.dp))
             }
-            
+
             Column() {
 
             }

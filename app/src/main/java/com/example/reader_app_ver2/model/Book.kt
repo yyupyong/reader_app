@@ -6,4 +6,7 @@ data class Book(
     var title:String? = null,
     var author:String? = null,
     var notes:String? = null,
-)
+    val photoUrl: Any,
+    val startedReading: Any
+) {
+}

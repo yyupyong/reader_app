@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,6 +23,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -38,6 +40,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -73,7 +77,11 @@ import com.google.firebase.ktx.Firebase
 fun Home(navController: NavController) {
     Scaffold(topBar = {
         ReaderAppBar(title = "ReaderApp", navController = navController)
-    }, floatingActionButton = { FABContent {} }) {
+    },
+        floatingActionButton = {
+            FABContent {}
+        }) {
+
         Surface(modifier = Modifier.fillMaxSize()) {
             //HomeというScreenの中にScaffoldがあってそのメインとなるのがHomeContentここにいろんな要素を入れる
             HomeContent(navController = navController)
@@ -142,7 +150,10 @@ fun HomeContent(navController: NavController) {
     else "N/A"
 
 
-    Column(modifier = Modifier.padding(2.dp), verticalArrangement = Arrangement.SpaceEvenly) {
+    Column(
+        modifier = Modifier.padding(2.dp),
+        verticalArrangement = Arrangement.Top
+    ) {
         Row(modifier = Modifier.align(alignment = Alignment.Start)) {
             TitleSection(label = "Your reading \n " + " activity right now...")
             Spacer(modifier = Modifier.fillMaxWidth(fraction = 0.7f))
@@ -165,60 +176,102 @@ fun HomeContent(navController: NavController) {
                 )
                 Divider()
             }
-
         }
+        ListCard()
     }
 }
 
-@Preview
 @Composable
 fun ListCard(
-    book: Book = Book("123", "走れメロス", "None", ""),
-    onPressDetail: (String) -> Unit = {}
+    book: Book = Book(
+        id = null,
+        title = "",
+        author = "",
+        notes = "",
+        photoUrl = "",
+        startedReading = ""
+    ),
+    onPressDetails: (String) -> Unit = {}
 ) {
     val context = LocalContext.current
     val resources = context.resources
-    //ここで現在のディスプレイのサイズなどを取得することができる
+
     val displayMetrics = resources.displayMetrics
+
     val screenWidth = displayMetrics.widthPixels / displayMetrics.density
     val spacing = 10.dp
 
-    Card(
-        shape = RoundedCornerShape(29.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+    Card(shape = RoundedCornerShape(29.dp),
+        colors = CardDefaults.cardColors(Color.White),
+        elevation = CardDefaults.cardElevation(6.dp),
         modifier = Modifier
             .padding(16.dp)
             .height(242.dp)
             .width(202.dp)
-            //invoke operatorは明示的な呼び出し、必須ではない
-            .clickable { onPressDetail.invoke(book.title.toString()) }
-    ) {
+            .clickable { onPressDetails.invoke(book.title.toString()) }) {
 
         Column(
-            //ここのScreenWidthは親のComposableのwidthを取得する？？
             modifier = Modifier.width(screenWidth.dp - (spacing * 2)),
             horizontalAlignment = Alignment.Start
         ) {
             Row(horizontalArrangement = Arrangement.Center) {
-                //このRowが本の画像
+
                 Image(
-                    painter = rememberAsyncImagePainter(model = ""),
-                    contentDescription = null,
+                    painter = rememberImagePainter(data = book.photoUrl.toString()),
+                    contentDescription = "book image",
                     modifier = Modifier
                         .height(140.dp)
                         .width(100.dp)
                         .padding(4.dp)
                 )
                 Spacer(modifier = Modifier.width(50.dp))
-            }
 
-            Column() {
+                Column(
+                    modifier = Modifier.padding(top = 25.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.FavoriteBorder,
+                        contentDescription = "Fav Icon",
+                        modifier = Modifier.padding(bottom = 1.dp)
+                    )
+
+//                    BookRating(score = book.rating!!)
+                }
 
             }
+            Text(
+                text = book.title.toString(), modifier = Modifier.padding(4.dp),
+                fontWeight = FontWeight.Bold,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Text(
+                text = book.author.toString(), modifier = Modifier.padding(4.dp),
+                style = MaterialTheme.typography.bodySmall
+            )
         }
 
+        val isStartedReading = remember {
+            mutableStateOf(false)
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.Bottom
+        ) {
+            isStartedReading.value = book.startedReading != null
+
+
+//            RoundedButton(label = if (isStartedReading.value)  "Reading" else "Not Yet",
+//                radius = 70)
+
+        }
     }
+
+
 }
 
 @Composable
